@@ -21,36 +21,18 @@ pipeline {
         stage('Maven Package') {
             steps {
                 sh 'mvn clean package'
-                archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
+                archiveArtifacts artifacts: '**/target/*.jar, **/target/*.war', fingerprint: true
             }
         }
     }
 
     post {
         success {
-            mail(
-                to: 'deeptiarora480@gmail.com',
-                subject: "SUCCESS: ${APP_NAME}",
-                body: """Build Successful
-
-${BUILD_INFO}
-
-Build URL: ${BUILD_URL}
-"""
-            )
+            echo "Build Successful: ${BUILD_INFO}"
         }
 
         failure {
-            mail(
-                to: 'deeptiarora480@gmail.com',
-                subject: "FAILED: ${APP_NAME}",
-                body: """Build Failed
-
-${BUILD_INFO}
-
-Build URL: ${BUILD_URL}
-"""
-            )
+            echo "Build Failed: ${BUILD_INFO}"
         }
     }
 }
