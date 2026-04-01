@@ -32,12 +32,31 @@ pipeline {
     }
 
     post {
+
         success {
-            echo "Build Successful: ${BUILD_INFO}"
+            mail(
+                to: 'deeptiarora480@gmail.com',
+                subject: "SUCCESS: ${APP_NAME}",
+                body: """Build Successful
+
+${BUILD_INFO}
+
+Build URL: ${BUILD_URL}
+"""
+            )
         }
 
         failure {
-            echo "Build Failed: ${BUILD_INFO}"
+            mail(
+                to: 'deeptiarora480@gmail.com',
+                subject: "FAILED: ${APP_NAME}",
+                body: """Build Failed
+
+${BUILD_INFO}
+
+Build URL: ${BUILD_URL}
+"""
+            )
         }
     }
 }
