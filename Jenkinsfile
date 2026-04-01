@@ -18,10 +18,15 @@ pipeline {
             }
         }
 
-        stage('Maven Package') {
+        stage('Maven Build') {
             steps {
                 sh 'mvn clean package'
-                archiveArtifacts artifacts: '**/target/*.jar, **/target/*.war', fingerprint: true
+            }
+        }
+
+        stage('Archive Artifact') {
+            steps {
+                archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
             }
         }
     }
